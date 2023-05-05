@@ -341,7 +341,7 @@ void main() {
     log.info("(class.toCSV(includeFields: [], excludeFields: [])) Starting",
         minLoggingLevel: _localLogLevel);
     expect(myTestClass.toCSV(includeFields: [], excludeFields: []),
-        '2,2.3,4,"5","6","171ee8fd-a7fb-421c-8f0e-4b1931655c16",true,"roles.Guest","2003-07-07 00:00:00.000","2:03:02.000000","https://www.google.com/api/fetch?test=value","99999","2003-07-07 00:00:00.000",null\r\n');
+        '2,2.3,4,"5","6","171ee8fd-a7fb-421c-8f0e-4b1931655c16",true,"roles.Guest","2003-07-07 00:00:00.000","2:03:02.000000","https://www.google.com/api/fetch?test=value","99999","2003-07-07 00:00:00.000",null');
     log.info("(class.toCSV(includeFields: [], excludeFields: [])) Finishing",
         minLoggingLevel: _localLogLevel);
   });
@@ -350,7 +350,7 @@ void main() {
         "(class.toCSV(includeFields: ['a', 'b'], excludeFields: [])) Starting",
         minLoggingLevel: _localLogLevel);
     expect(myTestClass.toCSV(includeFields: ['a', 'b'], excludeFields: []),
-        '2,2.3\r\n');
+        '2,2.3');
     log.info(
         "(class.toCSV(includeFields: ['a', 'b'], excludeFields: [])) Finishing",
         minLoggingLevel: _localLogLevel);
@@ -360,7 +360,7 @@ void main() {
         "(class.toCSV(includeFields: [], excludeFields: ['a', 'b'])) Starting",
         minLoggingLevel: _localLogLevel);
     expect(myTestClass.toCSV(includeFields: [], excludeFields: ['a', 'b']),
-        '4,"5","6","171ee8fd-a7fb-421c-8f0e-4b1931655c16",true,"roles.Guest","2003-07-07 00:00:00.000","2:03:02.000000","https://www.google.com/api/fetch?test=value","99999","2003-07-07 00:00:00.000",null\r\n');
+        '4,"5","6","171ee8fd-a7fb-421c-8f0e-4b1931655c16",true,"roles.Guest","2003-07-07 00:00:00.000","2:03:02.000000","https://www.google.com/api/fetch?test=value","99999","2003-07-07 00:00:00.000",null');
     log.info(
         "(class.toCSV(includeFields: [], excludeFields: ['a', 'b'])) Finishing",
         minLoggingLevel: _localLogLevel);
@@ -370,7 +370,7 @@ void main() {
         "(class.toCSV(includeFields: ['a', 'b'], excludeFields: ['a'])) Starting",
         minLoggingLevel: _localLogLevel);
     expect(myTestClass.toCSV(includeFields: ['a', 'b'], excludeFields: ['a']),
-        '2.3\r\n');
+        '2.3');
     log.info(
         "(class.toCSV(includeFields: ['a', 'b'], excludeFields: ['a'])) Finishing",
         minLoggingLevel: _localLogLevel);
@@ -390,7 +390,7 @@ void main() {
         "(class.toHeaderCSV(includeFields: [], excludeFields: [])) Starting",
         minLoggingLevel: _localLogLevel);
     expect(myTestClass.toHeaderCSV(includeFields: [], excludeFields: []),
-        '"a","b","c","d","e","f","g","h","i","j","k","l","m","n"\r\n');
+        '"a","b","c","d","e","f","g","h","i","j","k","l","m","n"');
     log.info(
         "(class.toHeaderCSV(includeFields: [], excludeFields: [])) Finishing",
         minLoggingLevel: _localLogLevel);
@@ -403,7 +403,7 @@ void main() {
         minLoggingLevel: _localLogLevel);
     expect(
         myTestClass.toHeaderCSV(includeFields: ['a', 'b'], excludeFields: []),
-        '"a","b"\r\n');
+        '"a","b"');
     log.info(
         "(class.toHeaderCSV(includeFields: ['a', 'b'], excludeFields: [])) Finishing",
         minLoggingLevel: _localLogLevel);
@@ -416,7 +416,7 @@ void main() {
         minLoggingLevel: _localLogLevel);
     expect(
         myTestClass.toHeaderCSV(includeFields: [], excludeFields: ['a', 'b']),
-        '"c","d","e","f","g","h","i","j","k","l","m","n"\r\n');
+        '"c","d","e","f","g","h","i","j","k","l","m","n"');
     log.info(
         "(class.toHeaderCSV(includeFields: [], excludeFields: ['a', 'b'])) Finishing",
         minLoggingLevel: _localLogLevel);
@@ -442,7 +442,7 @@ void main() {
     expect(
         myTestClass
             .toHeaderCSV(includeFields: ['a', 'b'], excludeFields: ['a']),
-        '"b"\r\n');
+        '"b"');
     log.info(
         "(class.toHeaderCSV(includeFields: ['a', 'b'], excludeFields: ['a'])) Finishing",
         minLoggingLevel: _localLogLevel);
@@ -450,55 +450,125 @@ void main() {
 
   List<MyTestClass> myTestClassList = [];
   myTestClassList.add(myTestClass);
-  test('List.toCSV(includeFields: [], excludeFields: [])', () {
-    log.info("(List.toCSV(includeFields: [], excludeFields: [])) Starting",
+  test('List.toCSVFromList(includeFields: [], excludeFields: [])', () {
+    log.info(
+        "(List.toCSVFromList(includeFields: [], excludeFields: [])) Starting",
         minLoggingLevel: _localLogLevel);
-    expect(myTestClassList.toCSV(includeFields: [], excludeFields: []),
+    expect(myTestClassList.toCSVFromList(includeFields: [], excludeFields: []),
         '"a","b","c","d","e","f","g","h","i","j","k","l","m","n"\r\n2,2.3,4,"5","6","171ee8fd-a7fb-421c-8f0e-4b1931655c16",true,"roles.Guest","2003-07-07 00:00:00.000","2:03:02.000000","https://www.google.com/api/fetch?test=value","99999","2003-07-07 00:00:00.000",null\r\n');
-    log.info("(List.toCSV(includeFields: [], excludeFields: [])) Finishing",
+    log.info(
+        "(List.toCSVFromList(includeFields: [], excludeFields: [])) Finishing",
         minLoggingLevel: _localLogLevel);
   });
-  test("List.toCSV(includeFields: ['a', 'b'], excludeFields: [])", () {
+  test("List.toCSVFromList(includeFields: ['a', 'b'], excludeFields: [])", () {
     log.info(
-        "(List.toCSV(includeFields: ['a', 'b'], excludeFields: [])) Starting",
+        "(List.toCSVFromList(includeFields: ['a', 'b'], excludeFields: [])) Starting",
         minLoggingLevel: _localLogLevel);
-    expect(myTestClassList.toCSV(includeFields: ['a', 'b'], excludeFields: []),
+    expect(
+        myTestClassList
+            .toCSVFromList(includeFields: ['a', 'b'], excludeFields: []),
         '"a","b"\r\n2,2.3\r\n');
     log.info(
-        "(List.toCSV(includeFields: ['a', 'b'], excludeFields: [])) Finishing",
+        "(List.toCSVFromList(includeFields: ['a', 'b'], excludeFields: [])) Finishing",
         minLoggingLevel: _localLogLevel);
   });
-  test("List.toCSV(includeFields: [], excludeFields: ['a', 'b'])", () {
+  test("List.toCSVFromList(includeFields: [], excludeFields: ['a', 'b'])", () {
     log.info(
-        "(List.toCSV(includeFields: [], excludeFields: ['a', 'b'])) Starting",
+        "(List.toCSVFromList(includeFields: [], excludeFields: ['a', 'b'])) Starting",
         minLoggingLevel: _localLogLevel);
-    expect(myTestClassList.toCSV(includeFields: [], excludeFields: ['a', 'b']),
+    expect(
+        myTestClassList
+            .toCSVFromList(includeFields: [], excludeFields: ['a', 'b']),
         '"c","d","e","f","g","h","i","j","k","l","m","n"\r\n4,"5","6","171ee8fd-a7fb-421c-8f0e-4b1931655c16",true,"roles.Guest","2003-07-07 00:00:00.000","2:03:02.000000","https://www.google.com/api/fetch?test=value","99999","2003-07-07 00:00:00.000",null\r\n');
     log.info(
-        "(List.toCSV(includeFields: [], excludeFields: ['a', 'b'])) Finishing",
+        "(List.toCSVFromList(includeFields: [], excludeFields: ['a', 'b'])) Finishing",
         minLoggingLevel: _localLogLevel);
   });
 // This test if failing for some unknown reason
-  /*test("List.toCSV(includeFields: ['a'], excludeFields: ['a', 'b'])", () {
+  /*test("List.toCSVFromList(includeFields: ['a'], excludeFields: ['a', 'b'])", () {
     log.info(
-        "(List.toCSV(includeFields: ['a'], excludeFields: ['a', 'b'])) Starting",
+        "(List.toCSVFromList(includeFields: ['a'], excludeFields: ['a', 'b'])) Starting",
         minLoggingLevel: _localLogLevel);
     expect(
-        myTestClassList.toCSV(includeFields: ['a'], excludeFields: ['a', 'b']),
+        myTestClassList
+            .toCSVFromList(includeFields: ['a'], excludeFields: ['a', 'b']),
         '');
     log.info(
-        "(List.toCSV(includeFields: ['a'], excludeFields: ['a', 'b'])) Finishing",
+        "(List.toCSVFromList(includeFields: ['a'], excludeFields: ['a', 'b'])) Finishing",
         minLoggingLevel: _localLogLevel);
   });*/
-  test("List.toCSV(includeFields: ['a', 'b'], excludeFields: ['a'])", () {
+  test("List.toCSVFromList(includeFields: ['a', 'b'], excludeFields: ['a'])",
+      () {
     log.info(
-        "(List.toCSV(includeFields: ['a', 'b'], excludeFields: ['a'])) Starting",
+        "(List.toCSVFromList(includeFields: ['a', 'b'], excludeFields: ['a'])) Starting",
         minLoggingLevel: _localLogLevel);
     expect(
-        myTestClassList.toCSV(includeFields: ['a', 'b'], excludeFields: ['a']),
+        myTestClassList
+            .toCSVFromList(includeFields: ['a', 'b'], excludeFields: ['a']),
         '"b"\r\n2.3\r\n');
     log.info(
-        "(List.toCSV(includeFields: ['a', 'b'], excludeFields: ['a'])) Finishing",
+        "(List.toCSVFromList(includeFields: ['a', 'b'], excludeFields: ['a'])) Finishing",
+        minLoggingLevel: _localLogLevel);
+  });
+  //myTestClassList.add(myTestClass);
+  test("List.toJSONFromList(includeFields: [], excludeFields: [])", () {
+    log.info(
+        "(List.toJSONFromList(includeFields: [], excludeFields: [])) Starting",
+        minLoggingLevel: _localLogLevel);
+    expect(myTestClassList.toJSONFromList(includeFields: [], excludeFields: []),
+        '[{"a":2,"b":2.3,"c":4,"d":"5","e":"6","f":"171ee8fd-a7fb-421c-8f0e-4b1931655c16","g":true,"h":"roles.Guest","i":"2003-07-07 00:00:00.000","j":"2:03:02.000000","k":"https://www.google.com/api/fetch?test=value","l":"99999","m":"2003-07-07 00:00:00.000","n":null}]');
+    log.info(
+        "(List.toJSONFromList(includeFields: [], excludeFields: [])) Finishing",
+        minLoggingLevel: _localLogLevel);
+  });
+  test("List.toJSONFromList(includeFields: [], excludeFields: ['a','b'])", () {
+    log.info(
+        "(List.toJSONFromList(includeFields: [], excludeFields: ['a','b'])) Starting",
+        minLoggingLevel: _localLogLevel);
+    expect(
+        myTestClassList
+            .toJSONFromList(includeFields: [], excludeFields: ['a', 'b']),
+        '[{"c":4,"d":"5","e":"6","f":"171ee8fd-a7fb-421c-8f0e-4b1931655c16","g":true,"h":"roles.Guest","i":"2003-07-07 00:00:00.000","j":"2:03:02.000000","k":"https://www.google.com/api/fetch?test=value","l":"99999","m":"2003-07-07 00:00:00.000","n":null}]');
+    log.info(
+        "(List.toJSONFromList(includeFields: [], excludeFields: ['a','b'])) Finishing",
+        minLoggingLevel: _localLogLevel);
+  });
+  test("List.toJSONFromList(includeFields: ['a','b'], excludeFields: [])", () {
+    log.info(
+        "(List.toJSONFromList(includeFields: ['a','b'], excludeFields: [])) Starting",
+        minLoggingLevel: _localLogLevel);
+    expect(
+        myTestClassList
+            .toJSONFromList(includeFields: ['a', 'b'], excludeFields: []),
+        '[{"a":2,"b":2.3}]');
+    log.info(
+        "(List.toJSONFromList(includeFields: ['a','b'], excludeFields: [])) Finishing",
+        minLoggingLevel: _localLogLevel);
+  });
+  test("List.toJSONFromList(includeFields: ['a'], excludeFields: ['a','b'])",
+      () {
+    log.info(
+        "(List.toJSONFromList(includeFields: ['a'], excludeFields: ['a','b'])) Starting",
+        minLoggingLevel: _localLogLevel);
+    expect(
+        myTestClassList
+            .toJSONFromList(includeFields: ['a'], excludeFields: ['a', 'b']),
+        '[]');
+    log.info(
+        "(List.toJSONFromList(includeFields: ['a'], excludeFields: ['a','b'])) Finishing",
+        minLoggingLevel: _localLogLevel);
+  });
+  test("List.toJSONFromList(includeFields: ['a','b'], excludeFields: ['a'])",
+      () {
+    log.info(
+        "(List.toJSONFromList(includeFields: ['a','b'], excludeFields: ['a'])) Starting",
+        minLoggingLevel: _localLogLevel);
+    expect(
+        myTestClassList
+            .toJSONFromList(includeFields: ['a', 'b'], excludeFields: ['a']),
+        '[{"b":2.3}]');
+    log.info(
+        "(List.toJSONFromList(includeFields: ['a','b'], excludeFields: ['a'])) Finishing",
         minLoggingLevel: _localLogLevel);
   });
 }

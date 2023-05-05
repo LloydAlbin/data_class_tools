@@ -16,25 +16,30 @@ know whether this package might be useful for them.
 
 This package includes a bunch of tools to make your Class's even more powerfull.
 
+data_class_tools.dart includes the following items:
+
 ```dart
 get('fieldName');
 set('fieldName', 'value');
 getType('fieldName');
-.toCSV();
-.toJSON();
-.fromCSV();
-.fromJSON();
+String class.toCSV({required List<String>? includeFields, required List<String>? excludeFields})
+String class.toJSON({required List<String>? includeFields, required List<String>? excludeFields})
+String class.toHeaderCSV({required List<String>? includeFields, required List<String>? excludeFields})
+String class.toUrlEncode({required Map<String, dynamic>? extras})
+class.fromCSV(); // Not Included Yet
+class.fromJSON(); // Not Included Yet
+class FieldMapping
+dynamic fixType(String fieldType, dynamic value)
 ```
 
 Improvments for List's
 
 ```dart
-.toCSV();
-.toJSON();
-.fromCSV();
-.fromJSON();
-.multisort(List<bool> criteria, dynamic preference, [List<String>? sorttype]);
-toUrlEncode({required Map<String, dynamic>? extras});
+.toCSVFromList();
+.toJSONFromList();
+.fromCSVToList(); // Not Included Yet
+.fromJSONToList(); // Not Included Yet
+.multisort(List<bool> criteria, dynamic preference, [List<String>? sorttype]); // Not Included Yet
 ```
 
 ## Features

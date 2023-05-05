@@ -59,9 +59,6 @@ extension DataClassTools on dynamic {
       }
       csvRow = '$csvRow"$field"';
     }
-    if (csvRow != "") {
-      csvRow = "$csvRow\r\n";
-    }
 
     return csvRow;
   }
@@ -103,9 +100,6 @@ extension DataClassTools on dynamic {
       } else {
         csvRow = '$csvRow"${value.toString()}"';
       }
-    }
-    if (csvRow != "") {
-      csvRow = "$csvRow\r\n";
     }
 
     return csvRow;
