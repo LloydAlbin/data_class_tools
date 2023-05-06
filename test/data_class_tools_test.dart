@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:uuid_type/uuid_type.dart';
 
@@ -72,13 +74,31 @@ class MyTestClass {
     ];
   }
 
+  /*List<Map<String, dynamic>> _extraMaps() {
+    return [
+      {
+        'roles.Guest': roles.Guest,
+        'roles.Registered': roles.Registered,
+        'roles.Subscribed': roles.Subscribed
+      }
+    ];
+  }*/
+
+  final Map<String, dynamic> _fieldEnums = {
+    'roles.Guest': roles.Guest,
+    'roles.Registered': roles.Registered,
+    'roles.Subscribed': roles.Subscribed
+  };
+
   //set function to set the properties of Item
   void set(String propertyName, dynamic propertyValue) {
     log.info("(set) Starting", minLoggingLevel: _localLogLevel);
     try {
       var instanceMirror = myReflectable.reflect(this);
       instanceMirror.invokeSetter(
-          propertyName, fixType(getType(propertyName), propertyValue));
+          propertyName,
+          fixType(getType(propertyName), propertyValue,
+              fieldEnums: _fieldEnums));
     } on Exception catch (exception) {
       log.shout('(set) Result Exception: ${exception.toString()}',
           minLoggingLevel: _localLogLevel);
@@ -105,6 +125,38 @@ class MyTestClass {
             .where((item) => item.fieldName == propertyName)
             .toList())[0]
         .fieldType;
+  }
+
+  MyTestClass.fromJSON(dynamic jsonInput)
+      : a = 0,
+        b = 0.0,
+        c = 0,
+        d = '0',
+        e = '0',
+        f = Uuid.parse('171ee8fd-a7fb-421c-8f0e-4b1931655c00'),
+        g = false,
+        h = roles.Registered,
+        i = DateTime.parse('1970-01-01'),
+        j = Duration(hours: 0),
+        k = Uri.parse('https://www.google.com/api/fetch?test=badvalue'),
+        l = BigInt.parse('9999999999') {
+    log.info("(fromJSON) starting loop of toFieldMap()",
+        minLoggingLevel: _localLogLevel);
+    for (FieldMapping item in toFieldMap()) {
+      if (item.postgresFieldName != null) {
+        log.info("(fromJSON) using toFieldMap() key ${item.postgresFieldName}",
+            minLoggingLevel: _localLogLevel);
+        log.info(
+            "(fromJSON) using JSON value ${jsonInput[item.postgresFieldName].toString()}",
+            minLoggingLevel: _localLogLevel);
+        log.info("(fromJSON) setting value", minLoggingLevel: _localLogLevel);
+        set(item.fieldName, jsonInput[item.postgresFieldName]);
+      }
+    }
+
+    // Extra items to be set that are not part of the data being received via JSON
+    //set('needToLoad', false);
+    //set('needToSave', false);
   }
 }
 
@@ -569,6 +621,29 @@ void main() {
         '[{"b":2.3}]');
     log.info(
         "(List.toJSONFromList(includeFields: ['a','b'], excludeFields: ['a'])) Finishing",
+        minLoggingLevel: _localLogLevel);
+  });
+  test("MyTestClass.fromJSON(dynamic jsonInput)", () {
+    log.info("(MyTestClass.fromJSON(dynamic jsonInput)) Starting",
+        minLoggingLevel: _localLogLevel);
+    MyTestClass x = MyTestClass.fromJSON(json.decode(
+        '{"aa":2,"bb":2.3,"cc":4,"dd":"5","ee":"6","ff":"171ee8fd-a7fb-421c-8f0e-4b1931655c16","gg":true,"hh":"roles.Guest","ii":"2003-07-07 00:00:00.000","jj":"2:03:02.000000","kk":"https://www.google.com/api/fetch?test=value","ll":"99999","mm":"2003-07-07 00:00:00.000","nn":null}'));
+    expect(x.a, 2);
+    expect(x.b, 2.3);
+    expect(x.c, 4);
+    expect(x.d, '5');
+    expect(x.e, '6');
+    expect(x.f.toString(), '171ee8fd-a7fb-421c-8f0e-4b1931655c16');
+    expect(x.g, true);
+    expect(x.h, roles.Guest);
+    expect(x.i.toString(), '2003-07-07 00:00:00.000');
+    expect(
+        x.j.toString(), Duration(hours: 2, minutes: 3, seconds: 2).toString());
+    expect(x.k.toString(), 'https://www.google.com/api/fetch?test=value');
+    expect(x.l.toString(), '99999');
+    expect(x.m.toString(), '2003-07-07 00:00:00.000');
+    expect(x.n, null);
+    log.info("(MyTestClass.fromJSON(dynamic jsonInput)) Finishing",
         minLoggingLevel: _localLogLevel);
   });
 }

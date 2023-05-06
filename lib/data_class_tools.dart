@@ -6,6 +6,7 @@ import 'package:uuid_type/uuid_type.dart';
 import 'package:reflectable/reflectable.dart';
 
 import 'package:data_class_tools/src/handlers/logging.dart';
+import 'package:data_class_tools/duration_class_tools.dart';
 import 'package:logging/logging.dart';
 
 final _localLogLevel = Level.INFO;
@@ -154,19 +155,38 @@ extension DataClassTools on dynamic {
 }
 
 // This is where we can put in any special field type confersions that are needed for the fromJson to Class
-dynamic fixType(String fieldType, dynamic value) {
+// Need to add handeling for enum's
+dynamic fixType(String fieldType, dynamic value,
+    {Map<String, dynamic>? fieldEnums}) {
   if (value == null) {
     return value;
   }
+  if (fieldEnums != null) {
+    if (fieldEnums.containsKey(value.toString())) {
+      return fieldEnums[value.toString()];
+    }
+  }
   switch (fieldType) {
     case 'DateTime':
-      return DateTime.parse(value);
+      return DateTime.parse(value.toString());
     case 'DateTime?':
-      return DateTime.tryParse(value);
+      return DateTime.tryParse(value.toString());
     case 'Uuid':
-      return Uuid.parse(value);
+      return Uuid.parse(value.toString());
     case 'Uuid?':
-      return Uuid.tryParse(value);
+      return Uuid.tryParse(value.toString());
+    case 'Duration':
+      return parseDuration(value);
+    case 'Duration?':
+      return tryParseDuration(value);
+    case 'Uri':
+      return Uri.parse(value.toString());
+    case 'Uri?':
+      return Uri.tryParse(value.toString());
+    case 'BigInt':
+      return BigInt.parse(value.toString());
+    case 'BigInt?':
+      return BigInt.tryParse(value.toString());
   }
   return value;
 }

@@ -16,30 +16,67 @@ know whether this package might be useful for them.
 
 This package includes a bunch of tools to make your Class's even more powerfull.
 
-data_class_tools.dart includes the following items:
+How to create a class containing the following features:
 
 ```dart
-get('fieldName');
-set('fieldName', 'value');
-getType('fieldName');
+List<FieldMapping> toFieldMap()
+final Map<String, dynamic>? _fieldEnums
+void set(String propertyName, dynamic propertyValue)
+dynamic get(String propertyName)
+String getType(String propertyName)
+class.fromJSON(dynamic jsonInput)
+class.fromCSV(); // Not Included Yet
+```
+
+data_class_tools.dart adds the following items to your above class:
+
+```dart
 String class.toCSV({required List<String>? includeFields, required List<String>? excludeFields})
 String class.toJSON({required List<String>? includeFields, required List<String>? excludeFields})
 String class.toHeaderCSV({required List<String>? includeFields, required List<String>? excludeFields})
 String class.toUrlEncode({required Map<String, dynamic>? extras})
-class.fromCSV(); // Not Included Yet
-class.fromJSON(); // Not Included Yet
 class FieldMapping
-dynamic fixType(String fieldType, dynamic value)
+dynamic fixType(String fieldType, dynamic value, {Map<String, dynamic>? fieldEnums}) 
 ```
 
-Improvments for List's
+How to create a list using the above class and containing the following features:
 
 ```dart
-.toCSVFromList();
-.toJSONFromList();
-.fromCSVToList(); // Not Included Yet
-.fromJSONToList(); // Not Included Yet
-.multisort(List<bool> criteria, dynamic preference, [List<String>? sorttype]); // Not Included Yet
+list.fromCSVToList(); // Not Included Yet
+list.fromJSONToList(); // Not Included Yet
+```
+
+
+data_list_tools.dart adds the following items to your above List that contains the above class
+
+```dart
+String list.toCSVFromList({required List<String>? includeFields, required List<String>? excludeFields})
+String list.toJSONFromList({required List<String>? includeFields, required List<String>? excludeFields})
+multisort(List<bool> criteria, dynamic preference, [List<String>? sorttype]); // Not Included Yet
+```
+
+Improvements for Duration
+
+```dart
+Duration parseDuration(String s)
+Duration? tryParseDuration(String? s)
+```
+
+Support for the folowing Dart field types within your class
+
+```dart
+int
+double
+num
+var
+String
+Uuid
+bool
+enum
+DateTime
+Duration
+Uri
+BigInt
 ```
 
 ## Features
@@ -77,6 +114,7 @@ class MyTestClass {
   Uri k;
   BigInt l;
   DateTime? m;
+  Uuid? n;
 
   MyTestClass(
     this.a,
@@ -92,6 +130,7 @@ class MyTestClass {
     this.k,
     this.l,
     this.m,
+    this.n,
   );
 
   List<FieldMapping> toFieldMap() {
@@ -109,8 +148,25 @@ class MyTestClass {
       FieldMapping('k', 'Uri', k, 'kk'),
       FieldMapping('l', 'BigInt', l, 'll'),
       FieldMapping('m', 'DateTime?', m, 'mm'),
+      FieldMapping('n', 'Uuid?', n, 'nn'),
     ];
   }
+
+  /*List<Map<String, dynamic>> _extraMaps() {
+    return [
+      {
+        'roles.Guest': roles.Guest,
+        'roles.Registered': roles.Registered,
+        'roles.Subscribed': roles.Subscribed
+      }
+    ];
+  }*/
+
+  final Map<String, dynamic>? _fieldEnums = {
+    'roles.Guest': roles.Guest,
+    'roles.Registered': roles.Registered,
+    'roles.Subscribed': roles.Subscribed
+  };
 
   //set function to set the properties of Item
   void set(String propertyName, dynamic propertyValue) {
@@ -118,7 +174,9 @@ class MyTestClass {
     try {
       var instanceMirror = myReflectable.reflect(this);
       instanceMirror.invokeSetter(
-          propertyName, fixType(getType(propertyName), propertyValue));
+          propertyName,
+          fixType(getType(propertyName), propertyValue,
+              fieldEnums: _fieldEnums));
     } on Exception catch (exception) {
       log.shout('(set) Result Exception: ${exception.toString()}',
           minLoggingLevel: _localLogLevel);
@@ -145,6 +203,38 @@ class MyTestClass {
             .where((item) => item.fieldName == propertyName)
             .toList())[0]
         .fieldType;
+  }
+
+  MyTestClass.fromJSON(dynamic jsonInput)
+      : a = 0,
+        b = 0.0,
+        c = 0,
+        d = '0',
+        e = '0',
+        f = Uuid.parse('171ee8fd-a7fb-421c-8f0e-4b1931655c00'),
+        g = false,
+        h = roles.Registered,
+        i = DateTime.parse('1970-01-01'),
+        j = Duration(hours: 0),
+        k = Uri.parse('https://www.google.com/api/fetch?test=badvalue'),
+        l = BigInt.parse('9999999999') {
+    log.info("(fromJSON) starting loop of toFieldMap()",
+        minLoggingLevel: _localLogLevel);
+    for (FieldMapping item in toFieldMap()) {
+      if (item.postgresFieldName != null) {
+        log.info("(fromJSON) using toFieldMap() key ${item.postgresFieldName}",
+            minLoggingLevel: _localLogLevel);
+        log.info(
+            "(fromJSON) using JSON value ${jsonInput[item.postgresFieldName].toString()}",
+            minLoggingLevel: _localLogLevel);
+        log.info("(fromJSON) setting value", minLoggingLevel: _localLogLevel);
+        set(item.fieldName, jsonInput[item.postgresFieldName]);
+      }
+    }
+
+    // Extra items to be set that are not part of the data being received via JSON
+    //set('needToLoad', false);
+    //set('needToSave', false);
   }
 }
 ```
