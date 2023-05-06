@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:uuid_type/uuid_type.dart';
@@ -37,6 +38,7 @@ class MyTestClass {
   BigInt l;
   DateTime? m;
   Uuid? n;
+  Point? o;
 
   MyTestClass(
     this.a,
@@ -529,7 +531,8 @@ void main() {
         minLoggingLevel: _localLogLevel);
   });
 // This test if failing for some unknown reason
-  /*test("List.toCSVFromList(includeFields: ['a'], excludeFields: ['a', 'b'])", () {
+  test("List.toCSVFromList(includeFields: ['a'], excludeFields: ['a', 'b'])",
+      () {
     log.info(
         "(List.toCSVFromList(includeFields: ['a'], excludeFields: ['a', 'b'])) Starting",
         minLoggingLevel: _localLogLevel);
@@ -540,7 +543,7 @@ void main() {
     log.info(
         "(List.toCSVFromList(includeFields: ['a'], excludeFields: ['a', 'b'])) Finishing",
         minLoggingLevel: _localLogLevel);
-  });*/
+  });
   test("List.toCSVFromList(includeFields: ['a', 'b'], excludeFields: ['a'])",
       () {
     log.info(

@@ -11,21 +11,32 @@ import 'data_class_tools.dart';
 
 final _localLogLevel = Level.INFO;
 
-extension DataListTools on List {
+extension DataListTools<T> on List<T> {
   String toCSVFromList(
-      {required List<String>? includeFields,
-      required List<String>? excludeFields}) {
+      {required final List<String>? includeFields,
+      required final List<String>? excludeFields}) {
+    final List<String>? incFields = includeFields;
+    final List<String>? excFields = excludeFields;
     String csvData = "";
     List<String> csvDataList = [];
+    log.info(
+        "(toCSVFromList(includeFields: ${incFields.toString()}, excludeFields: ${excFields.toString()})) Starting",
+        minLoggingLevel: _localLogLevel);
 
     bool firstRow = true;
     for (dynamic item in this) {
       if (firstRow == true) {
-        csvDataList.add(DataClassTools(item).toHeaderCSV(
-            includeFields: includeFields, excludeFields: excludeFields));
+        log.info(
+            "(toCSVFromList.toHeaderCSV(includeFields: ${incFields.toString()}, excludeFields: ${excFields.toString()})) Starting",
+            minLoggingLevel: _localLogLevel);
+        csvDataList.add(DataClassTools(item)
+            .toHeaderCSV(includeFields: incFields, excludeFields: excFields));
       }
+      log.info(
+          "(toCSVFromList.toCSV(includeFields: ${incFields.toString()}, excludeFields: ${excFields.toString()})) Starting",
+          minLoggingLevel: _localLogLevel);
       csvDataList.add(DataClassTools(item)
-          .toCSV(includeFields: includeFields, excludeFields: excludeFields));
+          .toCSV(includeFields: incFields, excludeFields: excFields));
       firstRow = false;
     }
     csvData = csvDataList.join('\r\n');
@@ -47,5 +58,16 @@ extension DataListTools on List {
     }
     jsonData = "[${jsonDataList.join(',')}]";
     return jsonData;
+  }
+
+  void fromJSONToList(dynamic jsonResults) {
+    for (var index = 0; index < jsonResults.length; index++) {
+      log.info("(fromJSONToList) (fromJson) index: $index",
+          minLoggingLevel: _localLogLevel);
+      //dynamic newAttendee = <T>.fromJSON(jsonResults[index]);
+      log.info("(fromJSONToList) (fromJson) add Row",
+          minLoggingLevel: _localLogLevel);
+      //this.add(newAttendee);
+    }
   }
 }

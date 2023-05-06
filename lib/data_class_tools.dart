@@ -12,7 +12,7 @@ import 'package:logging/logging.dart';
 final _localLogLevel = Level.INFO;
 
 extension DataClassTools on dynamic {
-  String toUrlEncode({required Map<String, dynamic>? extras}) {
+  String toUrlEncode({required final Map<String, dynamic>? extras}) {
     List<String> body2 = [];
 
     if (extras != null) {
@@ -32,8 +32,8 @@ extension DataClassTools on dynamic {
   }
 
   String toHeaderCSV(
-      {required List<String>? includeFields,
-      required List<String>? excludeFields}) {
+      {required final List<String>? includeFields,
+      required final List<String>? excludeFields}) {
     List<String> csvFields = [];
     String csvRow = "";
     bool useIncludedFields = false;
@@ -65,8 +65,8 @@ extension DataClassTools on dynamic {
   }
 
   String toCSV(
-      {required List<String>? includeFields,
-      required List<String>? excludeFields}) {
+      {required final List<String>? includeFields,
+      required final List<String>? excludeFields}) {
     List<String> csvFields = [];
     String csvRow = "";
     bool useIncludedFields = false;
@@ -92,7 +92,7 @@ extension DataClassTools on dynamic {
       if (csvRow != "") {
         csvRow = csvRow + ",";
       }
-      var value = get(field);
+      var value = this.get(field);
       if (value is double ||
           value is int ||
           value is bool ||
@@ -107,8 +107,8 @@ extension DataClassTools on dynamic {
   }
 
   String toJSON(
-      {required List<String>? includeFields,
-      required List<String>? excludeFields}) {
+      {required final List<String>? includeFields,
+      required final List<String>? excludeFields}) {
     List<String> jsonFields = [];
     String jsonRow = "";
     bool useIncludedFields = false;

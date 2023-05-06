@@ -1,5 +1,7 @@
 library data_class_tools;
 
+// https://stackoverflow.com/questions/54852585/how-to-convert-a-duration-like-string-to-a-real-duration-in-flutter
+
 Duration parseDuration(String s) {
   int hours = 0;
   int minutes = 0;
