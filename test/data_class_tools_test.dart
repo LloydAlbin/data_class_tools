@@ -686,5 +686,11 @@ void main() {
     expect(x.serverInfo?.errorInfo.forceLogout, false);
     expect(x.serverInfo?.errorInfo.forceUpgrade, false);
     expect(x.serverInfo?.apiVersion, 2);
+    expect(
+        x.myTestClassList.toJSONFromList(includeFields: [], excludeFields: []),
+        '[{"a":2,"b":2.3,"c":4,"d":"5","e":"6","f":"171ee8fd-a7fb-421c-8f0e-4b1931655c16","g":true,"h":"roles.Guest","i":"2003-07-07 00:00:00.000","j":"2:03:02.000000","k":"https://www.google.com/api/fetch?test=value","l":"99999","m":"2003-07-07 00:00:00.000","n":null}]');
+    expect(
+        x.myTestClassList.toCSVFromList(includeFields: [], excludeFields: []),
+        '"a","b","c","d","e","f","g","h","i","j","k","l","m","n"\r\n2,2.3,4,"5","6","171ee8fd-a7fb-421c-8f0e-4b1931655c16",true,"roles.Guest","2003-07-07 00:00:00.000","2:03:02.000000","https://www.google.com/api/fetch?test=value","99999","2003-07-07 00:00:00.000",null\r\n');
   });
 }
