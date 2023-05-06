@@ -39,11 +39,11 @@ class FieldMapping
 dynamic fixType(String fieldType, dynamic value, {Map<String, dynamic>? fieldEnums}) 
 ```
 
-How to create a list using the above class and containing the following features:
+How to create a Response using the above class and containing the following features:
 
 ```dart
-list.fromCSVToList(); // Not Included Yet
-list.fromJSONToList(); // Not Included Yet
+response.fromJSONtoClass(dynamic jsonInput)
+response.fromCSVToList(); // Not Included Yet
 ```
 
 
@@ -98,6 +98,20 @@ import 'package:data_class_tools/data_class_tools.dart';
 import 'package:uuid_type/uuid_type.dart';
 
 enum roles { Guest, Registered, Subscribed }
+
+class MyTestClassResponse extends Response {
+  List<MyTestClass> myTestClassList = [];
+
+  MyTestClassResponse();
+
+  MyTestClassResponse.fromJSONtoClass(dynamic jsonInput) {
+    super.fromJSONResponse(jsonInput);
+    for (var index = 0; index < jsonInput['data'].length; index++) {
+      MyTestClass newRow = MyTestClass.fromJSON(jsonInput['data'][index]);
+      myTestClassList.add(newRow);
+    }
+  }
+}
 
 @myReflectable
 class MyTestClass {

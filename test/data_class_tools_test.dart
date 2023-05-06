@@ -6,6 +6,7 @@ import 'package:uuid_type/uuid_type.dart';
 
 import 'package:data_class_tools/data_class_tools.dart';
 import 'package:data_class_tools/data_list_tools.dart';
+import 'package:data_class_tools/response_class.dart';
 
 import 'reflection.dart';
 import 'data_class_tools_test.reflectable.dart';
@@ -21,6 +22,24 @@ enum roles { Guest, Registered, Subscribed }
 
 // If updating this class, you then need to run
 // flutter pub run build_runner build
+
+class MyTestClassResponse extends Response {
+  List<MyTestClass> myTestClassList = [];
+
+  MyTestClassResponse();
+
+  MyTestClassResponse.fromJSONtoClass(dynamic jsonInput) {
+    super.fromJSONResponse(jsonInput);
+    for (var index = 0; index < jsonInput['data'].length; index++) {
+      log.info("(Response) (fromJson) index: $index",
+          minLoggingLevel: _localLogLevel);
+      MyTestClass newRow = MyTestClass.fromJSON(jsonInput['data'][index]);
+      log.info("(Response) (fromJson) add Row",
+          minLoggingLevel: _localLogLevel);
+      myTestClassList.add(newRow);
+    }
+  }
+}
 
 @myReflectable
 class MyTestClass {
@@ -640,5 +659,32 @@ void main() {
     expect(x.n, null);
     log.info("(MyTestClass.fromJSON(dynamic jsonInput)) Finishing",
         minLoggingLevel: _localLogLevel);
+  });
+  test("MyTestClassResponse.fromJSONtoClass(dynamic jsonInput)", () {
+    dynamic jsonInput = json.decode(
+        '{"data":[{"aa":2,"bb":2.3,"cc":4,"dd":"5","ee":"6","ff":"171ee8fd-a7fb-421c-8f0e-4b1931655c16","gg":true,"hh":"roles.Guest","ii":"2003-07-07 00:00:00.000","jj":"2:03:02.000000","kk":"https://www.google.com/api/fetch?test=value","ll":"99999","mm":"2003-07-07 00:00:00.000","nn":null}],"error":{"status":200,"displaymessage":null,"internalmessage":null,"forcelogout":false,"forceupgrade":false},"version":2}');
+    MyTestClassResponse x = MyTestClassResponse.fromJSONtoClass(jsonInput);
+    expect(x.myTestClassList[0].b, 2.3);
+    expect(x.myTestClassList[0].c, 4);
+    expect(x.myTestClassList[0].d, '5');
+    expect(x.myTestClassList[0].e, '6');
+    expect(x.myTestClassList[0].f.toString(),
+        '171ee8fd-a7fb-421c-8f0e-4b1931655c16');
+    expect(x.myTestClassList[0].g, true);
+    expect(x.myTestClassList[0].h, roles.Guest);
+    expect(x.myTestClassList[0].i.toString(), '2003-07-07 00:00:00.000');
+    expect(x.myTestClassList[0].j.toString(),
+        Duration(hours: 2, minutes: 3, seconds: 2).toString());
+    expect(x.myTestClassList[0].k.toString(),
+        'https://www.google.com/api/fetch?test=value');
+    expect(x.myTestClassList[0].l.toString(), '99999');
+    expect(x.myTestClassList[0].m.toString(), '2003-07-07 00:00:00.000');
+    expect(x.myTestClassList[0].n, null);
+    expect(x.serverInfo?.errorInfo.status, 200);
+    expect(x.serverInfo?.errorInfo.displayMessage, null);
+    expect(x.serverInfo?.errorInfo.internalMessage, null);
+    expect(x.serverInfo?.errorInfo.forceLogout, false);
+    expect(x.serverInfo?.errorInfo.forceUpgrade, false);
+    expect(x.serverInfo?.apiVersion, 2);
   });
 }
