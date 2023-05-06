@@ -260,7 +260,7 @@ from the package authors, and more.
 
 ## Issues
 
-- The .fromJSON and the .toJSON to not have the same variables name. .fromJSON uses the postgres names and the .toJSON uses the field names, and the .toUrlEncode uses the postgres field names as the .fromJSON and the .toUrlEncode are the inverses of each other. But this makes me think that we maybe should have a flag on the .toJSON to say if we want the class field names or the postgres field names.
+- The .fromJSON and the .toJSON do not have the same variables name. The .fromJSON uses the postgres field names and the .toJSON uses the class field names, and the .toUrlEncode uses the postgres field names as the .fromJSON and the .toUrlEncode are the inverses of each other. But this makes me think that we maybe should have a flag on the .toJSON to say if we want the class field names or the postgres field names.
 
 ## Bugs
 
