@@ -692,5 +692,7 @@ void main() {
     expect(
         x.myTestClassList.toCSVFromList(includeFields: [], excludeFields: []),
         '"a","b","c","d","e","f","g","h","i","j","k","l","m","n"\r\n2,2.3,4,"5","6","171ee8fd-a7fb-421c-8f0e-4b1931655c16",true,"roles.Guest","2003-07-07 00:00:00.000","2:03:02.000000","https://www.google.com/api/fetch?test=value","99999","2003-07-07 00:00:00.000",null\r\n');
+    expect(x.myTestClassList[0].toUrlEncode(extras: null),
+        'aa=2&bb=2.3&cc=4&dd=5&ee=6&ff=171ee8fd-a7fb-421c-8f0e-4b1931655c16&gg=true&hh=roles.Guest&ii=2003-07-07%2000%3A00%3A00.000&jj=2%3A03%3A02.000000&kk=https%3A%2F%2Fwww.google.com%2Fapi%2Ffetch%3Ftest%3Dvalue&ll=99999&mm=2003-07-07%2000%3A00%3A00.000&nn=null');
   });
 }
