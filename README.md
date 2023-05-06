@@ -257,3 +257,11 @@ flutter test test/data_class_tools_test.dart
 TODO: Tell users more about the package: where to find more information, how to
 contribute to the package, how to file issues, what response they can expect
 from the package authors, and more.
+
+## Issues
+
+- The .fromJSON and the .toJSON to not have the same variables name. .fromJSON uses the postgres names and the .toJSON uses the field names, and the .toUrlEncode uses the postgres field names as the .fromJSON and the .toUrlEncode are the inverses of each other. But this makes me think that we maybe should have a flag on the .toJSON to say if we want the class field names or the postgres field names.
+
+## Bugs
+
+- List.toCSVFromList(includeFields: ['a'], excludeFields: ['a', 'b']) where you are using both include and exclude fields is broken. The includeFields is becomming null part way through the process.
