@@ -74,16 +74,6 @@ class MyTestClass {
     ];
   }
 
-  /*List<Map<String, dynamic>> _extraMaps() {
-    return [
-      {
-        'roles.Guest': roles.Guest,
-        'roles.Registered': roles.Registered,
-        'roles.Subscribed': roles.Subscribed
-      }
-    ];
-  }*/
-
   final Map<String, dynamic> _fieldEnums = {
     'roles.Guest': roles.Guest,
     'roles.Registered': roles.Registered,
@@ -127,6 +117,8 @@ class MyTestClass {
         .fieldType;
   }
 
+  // All non-bullables be be initialized before the function can fill then in from the JSON.
+  // fromJSON(dynamic jsonInput) : field = value, field = value ... {}
   MyTestClass.fromJSON(dynamic jsonInput)
       : a = 0,
         b = 0.0,
@@ -154,9 +146,9 @@ class MyTestClass {
       }
     }
 
-    // Extra items to be set that are not part of the data being received via JSON
-    //set('needToLoad', false);
-    //set('needToSave', false);
+    // Extra items to be set that are not part of the data being received via JSON can be set here using either method
+    //set('field', false);
+    //field=false
   }
 }
 
