@@ -29,6 +29,8 @@ dependencies:
   build_modules: ^4.0.7
   # https://pub.dev/packages/uuid_type
   uuid_type: ^2.0.0
+  # https://pub.dev/packages/http
+  http: ^0.13.5
 
 dev_dependencies:
   flutter_test:

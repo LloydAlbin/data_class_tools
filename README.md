@@ -25,7 +25,8 @@ void set(String propertyName, dynamic propertyValue)
 dynamic get(String propertyName)
 String getType(String propertyName)
 class.fromJSON(dynamic jsonInput)
-class.fromCSV(); // Not Included Yet
+class.fromCSV() // Not Included Yet
+BoolResponse class.writeToAPI()
 ```
 
 data_class_tools.dart adds the following items to your above class:
@@ -37,6 +38,7 @@ String class.toHeaderCSV({required List<String>? includeFields, required List<St
 String class.toUrlEncode({required Map<String, dynamic>? extras})
 class FieldMapping
 dynamic fixType(String fieldType, dynamic value, {Map<String, dynamic>? fieldEnums}) 
+BoolResponse class.writeToAPI(final String urlAddress, final bool useGetMethod, final Map<String, dynamic>? extras, String variable)
 ```
 
 How to create a Response using the above class and containing the following features:
@@ -52,7 +54,8 @@ data_list_tools.dart adds the following items to your above List that contains t
 ```dart
 String list.toCSVFromList({required List<String>? includeFields, required List<String>? excludeFields})
 String list.toJSONFromList({required List<String>? includeFields, required List<String>? excludeFields})
-multisort(List<bool> criteria, dynamic preference, [List<String>? sorttype]); // Not Included Yet
+list.multisort(List<bool> criteria, dynamic preference, [List<String>? sorttype]); // Not Included Yet
+list.syncToAPI()  // Not Included Yet
 ```
 
 Improvements for Duration

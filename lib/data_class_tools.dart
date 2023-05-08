@@ -1,12 +1,17 @@
 library data_class_tools;
 
+import 'package:http/http.dart' as http;
 import 'package:uuid_type/uuid_type.dart';
+import 'dart:convert';
 
 // ignore:unused_import
 import 'package:reflectable/reflectable.dart';
 
 import 'package:data_class_tools/src/handlers/logging.dart';
 import 'package:data_class_tools/duration_class_tools.dart';
+import 'package:data_class_tools/bool_response.dart';
+import 'package:data_class_tools/response_class.dart';
+import 'package:data_class_tools/src/fetch_api_data.dart';
 import 'package:logging/logging.dart';
 
 final _localLogLevel = Level.INFO;
@@ -151,6 +156,66 @@ extension DataClassTools on dynamic {
     }
 
     return jsonRow;
+  }
+
+  Future<BoolResponse> writeToAPI(
+      final String urlAddress,
+      final bool useGetMethod,
+      final Map<String, dynamic>? extras,
+      String variable) async {
+    BoolResponse newBool = BoolResponse();
+
+    try {
+      http.Response? result;
+
+      String body = toUrlEncode(extras: extras);
+      result = await webApi(useGetMethod, urlAddress, body);
+      if (result != null) {
+        if (result.statusCode == 200) {
+          var _results = json.decode(utf8.decode(result.bodyBytes));
+          newBool = BoolResponse.fromJson(_results, variable);
+        } else {
+          newBool.passFail = false;
+          newBool.serverInfo = ServerInfo(
+              ErrorResponse(
+                result.statusCode,
+                result.reasonPhrase,
+                result.reasonPhrase,
+                false,
+                false,
+              ),
+              2);
+        }
+      }
+    } on Exception catch (exception) {
+      log.shout('(Fetch Bool) Result Exception: ${exception.toString()}',
+          minLoggingLevel: _localLogLevel);
+      newBool.passFail = false;
+      newBool.serverInfo = ServerInfo(
+          ErrorResponse(
+            501,
+            exception.toString(),
+            exception.toString(),
+            false,
+            false,
+          ),
+          2);
+    } catch (error) {
+      log.shout('(Fetch Bool) Result Error Code: ${error.toString()}',
+          minLoggingLevel: _localLogLevel);
+      newBool.passFail = false;
+      newBool.serverInfo = ServerInfo(
+          ErrorResponse(
+            501,
+            error.toString(),
+            error.toString(),
+            false,
+            false,
+          ),
+          2);
+    }
+
+    return newBool;
   }
 }
 
